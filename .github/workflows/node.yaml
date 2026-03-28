@@ -2,14 +2,23 @@ name: Matrix-Node
 
 on:
   workflow_dispatch: 
+    inputs:
+      environment:
+        description: "Choose environment"
+        required: true
+        default: development
+        type: choice
+        options:
+          - development
+          - production
 
 jobs:
   Matrix:
     runs-on: [self-hosted, Linux]
 
-    strategy:
-      matrix:
-        node: [16, 18]
+    # strategy:
+    #   matrix:
+    #     node: [16, 18]
 
     steps:
       - name: Checkout code
@@ -18,20 +27,23 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 18
 
       - name: Install dependencies
         run: npm install
 
       - name: Create .env file
         run: |
+         if [[ "${{github.event.inputs.environment}}" == "development" ]]
           echo "PORT=${{secrets.NODE_PORT_DEV}}" >> .env.development
           echo "APP=${{secrets.NODE_PORT_APP}}" >> .env.development
+         else [[ "${{github.event.inputs.environment}}" == "production" ]]
+          echo "PORT=${{secrets.NODE_PORT_PROD}}" >> .env.production
+          echo "APP=${{secrets.NODE_PORT_APP_PROD}}" >> .env.production
 
       - name: Run NodeJs App
         run: |
-          node server.js development &
+          node server.js ${{github.event.inputs.environment}} &
           sleep 5
-          curl http://localhost:3000/health
+          curl http://localhost:8080/health
           pkill -f "node server.js"
-          
