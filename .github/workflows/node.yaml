@@ -1,0 +1,37 @@
+name: Matrix-Node
+
+on:
+  workflow_dispatch: 
+
+jobs:
+  Matrix:
+    runs-on: [self-hosted, Linux]
+
+    strategy:
+      matrix:
+        node: [16, 18]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Create .env file
+        run: |
+          echo "PORT=3000" >> .env.development
+          echo "APP=DevAPP" >> .env.development
+
+      - name: Run NodeJs App
+        run: |
+          node server.js development &
+          sleep 5
+          curl http://localhost:3000/health
+          pkill -f "node server.js"
+          
