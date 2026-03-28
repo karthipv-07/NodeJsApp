@@ -21,3 +21,27 @@ jobs:
         env:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  docker:
+    runs-on: [self-hosted, Linux]
+    needs: sonar   # runs only if sonar succeeds
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        run: |
+          docker build -f Dockerfile.distroless -t dockerfile-distroless .
+
+      - name: Login to DockerHub
+        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Tag Image
+        run: |
+          docker tag dockerfile-distroless ${{ secrets.DOCKER_USERNAME }}/nodeapp:${{ github.sha }}
+
+      - name: Push Image
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/node-app:${{ github.sha }}
