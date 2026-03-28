@@ -6,18 +6,18 @@ const path = require('path');
 const env = process.argv[2] || "development";
 dotenv.config({ path: `.env.${env}` });
 
-const logDir = '/app/logs';
-const logFile = path.join(logDir, 'app.log');
+// const logDir = '/app/logs';
+// const logFile = path.join(logDir, 'app.log');
 
-if (!fs.existsSync(logDir)) {
-    fs.mkdirSync(logDir, { recursive: true });
-}
+// if (!fs.existsSync(logDir)) {
+//     fs.mkdirSync(logDir, { recursive: true });
+// }
 
 function log(message) {
     const time = new Date().toISOString();
     const finalMessage = `[${time}] [${env.toUpperCase()}] ${message}`;
-console.log(finalMessage);
-fs.appendFileSync(logFile, finalMessage + '\n');
+    console.log(finalMessage);
+// fs.appendFileSync(logFile, finalMessage + '\n');
 }
 
 const app = express();
