@@ -7,17 +7,17 @@ on:
 jobs:
   sonar:
     runs-on: self-hosted
-	
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-		
+
       - name: SonarQube scan
         uses: SonarSource/sonarqube-scan-action@v4
-	    with:
-	      args: >
+        with:
+          args: >
             -Dsonar.projectKey=NodeJsApp
             -Dsonar.sources=.
-	    env:
-	      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        env:
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
