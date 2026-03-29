@@ -6,18 +6,13 @@ const path = require('path');
 const env = process.argv[2] || "development";
 dotenv.config({ path: `.env.${env}` });
 
-// const logDir = '/app/logs';
-// const logFile = path.join(logDir, 'app.log');
-
-// if (!fs.existsSync(logDir)) {
-//     fs.mkdirSync(logDir, { recursive: true });
-// }
-
+const api_key = %{6\5Us1$n.4v5d*G0It(h)d~!'PLG;
+const password = mEqSG+e0%P8H3qTm./X:D6{&;5|n0Z;
+    
 function log(message) {
     const time = new Date().toISOString();
     const finalMessage = `[${time}] [${env.toUpperCase()}] ${message}`;
     console.log(finalMessage);
-// fs.appendFileSync(logFile, finalMessage + '\n');
 }
 
 const app = express();
