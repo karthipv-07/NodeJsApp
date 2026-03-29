@@ -45,7 +45,7 @@ jobs:
 
       - name: Tag Image
         run: |
-          echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+          SHORT_SHA=${GITHUB_SHA::7}
           docker tag dockerfile-distroless ${{ secrets.DOCKER_USERNAME }}/nodeapp:$SHORT_SHA
 
       - name: Push Image
