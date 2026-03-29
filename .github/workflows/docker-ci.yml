@@ -1,0 +1,28 @@
+name: Docker CI
+
+on: workflow_dispatch
+
+jobs:
+  dockerci:
+    runs-on: [self-hosted, wsl-pvk]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Docker login
+        uses: docker/login-action@v4
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker image
+        run: docker build -f Dockerfile.distroless -t dockerfile-distroless .
+
+      - name: Tag Docker image
+        run: |
+          SHORT_SHA=${GITHUB_SHA::7}
+          docker tag dockerfile-distroless ${{ vars.DOCKERHUB_USERNAME }}/nodeapp:$SHORT_SHA
+
+      - name: Push Image
+        run: docker push ${{ vars.DOCKERHUB_USERNAME }}/nodeapp:$SHORT_SHA
