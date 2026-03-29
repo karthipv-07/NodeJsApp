@@ -1,0 +1,21 @@
+name: SonarQube pipeline
+
+on: workflow_dispatch
+
+jobs:
+  sonar:
+    runs-on: [self-hosted, wsl-linux]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        with:
+          args: >
+            -Dsonar.projectKey=NodeJS-CI-Pipeline
+            -Dsonar.sources=.
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
