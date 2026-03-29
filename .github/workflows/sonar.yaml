@@ -1,0 +1,21 @@
+name: Sonarqube
+
+on: workflow_dispatch
+
+jobs:
+  sonar:
+    runs-on: [self-hosted, wsl-pvk]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: SonarQube analysis
+        uses: SonarSource/sonarqube-scan-action@v4
+        with:
+          args: >
+            -Dsonar.projectKey=NodeJS_App
+            -Dsonar.sources=.
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
