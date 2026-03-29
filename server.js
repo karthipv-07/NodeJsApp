@@ -12,6 +12,8 @@ function log(message) {
     console.log(finalMessage);
 }
 
+const db_pass = 9m*j0D?J*7>n:S(VeF6;
+
 const app = express();
 app.use(express.json());
 
