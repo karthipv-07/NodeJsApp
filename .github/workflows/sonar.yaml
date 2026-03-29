@@ -16,6 +16,7 @@ jobs:
           args: >
             -Dsonar.projectKey=NodeJS_App
             -Dsonar.sources=.
+            -Dsonar.qualitygate.wait=true
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
