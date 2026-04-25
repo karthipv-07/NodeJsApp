@@ -5,7 +5,7 @@ const path = require('path');
 
 const env = process.argv[2] || "development";
 dotenv.config({ path: `.env.${env}` });
-    
+
 function log(message) {
     const time = new Date().toISOString();
     const finalMessage = `[${time}] [${env.toUpperCase()}] ${message}`;

@@ -13,9 +13,10 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^17.3.1",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "sonar-scanner": "^3.1.0"
   },
   "devDependencies": {
-    "sonarqube-scanner": "^4.3.5"
+    "sonarqube-scanner": "^4.3.6"
   }
 }
